@@ -1,0 +1,162 @@
+{
+  "meta": {
+    "week_id": "2026-W32",
+    "date_start": "2026-08-03",
+    "date_end": "2026-08-09",
+    "tagline": "選題上限與均衡測試。"
+  },
+  "items": [
+    {
+      "id": "c-r1",
+      "title": "復甦研究 A",
+      "url": "https://example.com/r1",
+      "source": "Journal",
+      "date": "2026-08-03",
+      "pillar": "臨床",
+      "clinical_subtopic": "復甦",
+      "why_label": "跟上認知",
+      "next_move": "閱讀摘要即可。",
+      "summary": "復甦 A",
+      "groundedness": 1
+    },
+    {
+      "id": "c-r2",
+      "title": "復甦研究 B",
+      "url": "https://example.com/r2",
+      "source": "Journal",
+      "date": "2026-08-03",
+      "pillar": "臨床",
+      "clinical_subtopic": "復甦",
+      "why_label": "跟上認知",
+      "next_move": "閱讀摘要即可。",
+      "summary": "復甦 B",
+      "groundedness": 1
+    },
+    {
+      "id": "c-r3",
+      "title": "復甦研究 C",
+      "url": "https://example.com/r3",
+      "source": "Journal",
+      "date": "2026-08-03",
+      "pillar": "臨床",
+      "clinical_subtopic": "復甦",
+      "why_label": "跟上認知",
+      "next_move": "閱讀摘要即可。",
+      "summary": "復甦 C",
+      "groundedness": 1
+    },
+    {
+      "id": "c-t1",
+      "title": "創傷更新",
+      "url": "https://example.com/t1",
+      "source": "學會",
+      "date": "2026-08-04",
+      "pillar": "臨床",
+      "clinical_subtopic": "創傷",
+      "why_label": "改做法",
+      "next_move": "調整固定流程檢查表。",
+      "summary": "創傷",
+      "groundedness": 4
+    },
+    {
+      "id": "c-m1",
+      "title": "腦中風院前通知",
+      "url": "https://example.com/m1",
+      "source": "學會",
+      "date": "2026-08-04",
+      "pillar": "臨床",
+      "clinical_subtopic": "內科急症",
+      "why_label": "改做法",
+      "next_move": "確認卒中啟動機制用語。",
+      "summary": "中風",
+      "groundedness": 5
+    },
+    {
+      "id": "s1",
+      "title": "再證時數調整",
+      "url": "https://example.com/s1",
+      "source": "衛福部",
+      "date": "2026-08-05",
+      "pillar": "系統",
+      "why_label": "教學可用",
+      "next_move": "更新訓練時程表。",
+      "summary": "訓練",
+      "groundedness": 8
+    },
+    {
+      "id": "e1",
+      "title": "呼吸器試辦評估",
+      "url": "https://example.com/e1",
+      "source": "地方可擴散政策",
+      "date": "2026-08-05",
+      "pillar": "裝備",
+      "why_label": "跟上認知",
+      "next_move": "記錄他縣市配備條件。",
+      "summary": "裝備",
+      "groundedness": 6
+    },
+    {
+      "id": "c-r4",
+      "title": "復甦研究 D",
+      "url": "https://example.com/r4",
+      "source": "Journal",
+      "date": "2026-08-06",
+      "pillar": "臨床",
+      "clinical_subtopic": "復甦",
+      "why_label": "跟上認知",
+      "next_move": "可略。",
+      "summary": "復甦 D",
+      "groundedness": 1
+    },
+    {
+      "id": "c-r5",
+      "title": "復甦研究 E",
+      "url": "https://example.com/r5",
+      "source": "Journal",
+      "date": "2026-08-06",
+      "pillar": "臨床",
+      "clinical_subtopic": "復甦",
+      "why_label": "跟上認知",
+      "next_move": "可略。",
+      "summary": "復甦 E",
+      "groundedness": 1
+    },
+    {
+      "id": "c-r6",
+      "title": "復甦研究 F",
+      "url": "https://example.com/r6",
+      "source": "Journal",
+      "date": "2026-08-06",
+      "pillar": "臨床",
+      "clinical_subtopic": "復甦",
+      "why_label": "跟上認知",
+      "next_move": "可略。",
+      "summary": "復甦 F",
+      "groundedness": 1
+    },
+    {
+      "id": "extra1",
+      "title": "額外系統新聞",
+      "url": "https://example.com/sx",
+      "source": "公告",
+      "date": "2026-08-07",
+      "pillar": "系統",
+      "why_label": "跟上認知",
+      "next_move": "掃過即可。",
+      "summary": "系統額外",
+      "groundedness": 3
+    },
+    {
+      "id": "extra2",
+      "title": "額外裝備新聞",
+      "url": "https://example.com/ex",
+      "source": "通報",
+      "date": "2026-08-07",
+      "pillar": "裝備",
+      "why_label": "跟上認知",
+      "next_move": "掃過即可。",
+      "summary": "裝備額外",
+      "groundedness": 3
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "week_id": "2026-W31",
+    "date_start": "2026-07-27",
+    "date_end": "2026-08-02",
+    "tagline": "三柱皆有料的編排測試週。",
+    "source_count": 5
+  },
+  "items": [
+    {
+      "id": "c1",
+      "title": "創傷止血訓練更新",
+      "url": "https://example.com/trauma",
+      "source": "學會",
+      "date": "2026-07-29",
+      "pillar": "臨床",
+      "clinical_subtopic": "創傷",
+      "why_label": "改做法",
+      "next_move": "檢查單位止血帶與填塞訓練是否對齊。",
+      "summary": "更新院前大出血處置要點。",
+      "groundedness": 5
+    },
+    {
+      "id": "s1",
+      "title": "派遣分級指引修訂",
+      "url": "https://example.com/dispatch",
+      "source": "消防署",
+      "date": "2026-07-30",
+      "pillar": "系統",
+      "why_label": "改做法",
+      "next_move": "對照勤務中心現行分級表差異。",
+      "summary": "中央修訂派遣分級原則。",
+      "groundedness": 8
+    },
+    {
+      "id": "e1",
+      "title": "AED 電極片召回通報",
+      "url": "https://example.com/aed",
+      "source": "食藥署",
+      "date": "2026-07-28",
+      "pillar": "裝備",
+      "why_label": "改做法",
+      "next_move": "清點車上 AED 批號並依通報處理。",
+      "summary": "特定批號電極片可能黏著不良。",
+      "groundedness": 8
+    }
+  ]
+}

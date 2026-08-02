@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "week_id": "2026-W31",
+    "date_start": "2026-07-27",
+    "date_end": "2026-08-02",
+    "tagline": "本週聚焦院前復甦與交接品質。",
+    "header_rel_path": "../../assets/weekly-ems-news-header.png",
+    "source_count": 3
+  },
+  "items": [
+    {
+      "id": "c1",
+      "title": "成人 OHCA 高壓氧證據更新",
+      "url": "https://example.com/ohca",
+      "source": "示例期刊",
+      "date": "2026-07-28",
+      "pillar": "臨床",
+      "clinical_subtopic": "復甦",
+      "why_label": "跟上認知",
+      "next_move": "複習現行 CPR 流程，留意後續指引是否跟進。",
+      "pico": {
+        "population": "成人 OHCA",
+        "intervention": "到院前加強處置組合",
+        "comparison": "標準 ACLS",
+        "outcome": "神經學預後"
+      },
+      "groundedness": 2
+    }
+  ]
+}

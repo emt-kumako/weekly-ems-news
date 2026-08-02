@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "week_id": "2026-W33",
+    "date_start": "2026-08-10",
+    "date_end": "2026-08-16",
+    "tagline": "合併與未定測試。"
+  },
+  "items": [
+    {
+      "id": "g1",
+      "title": "ILCOR 共識更新",
+      "url": "https://example.com/ilcor-primary",
+      "source": "ILCOR",
+      "date": "2026-08-10",
+      "pillar": "臨床",
+      "clinical_subtopic": "復甦",
+      "why_label": "改做法",
+      "next_move": "對照單位 SOP 差異點。",
+      "summary": "原始共識。",
+      "groundedness": 3
+    },
+    {
+      "id": "g2",
+      "title": "ILCOR 共識更新",
+      "url": "https://example.com/ilcor-repost",
+      "source": "轉載媒體",
+      "date": "2026-08-11",
+      "pillar": "臨床",
+      "clinical_subtopic": "復甦",
+      "why_label": "跟上認知",
+      "next_move": "以原始文件為準。",
+      "summary": "轉載。",
+      "groundedness": 1
+    },
+    {
+      "id": "pre1",
+      "title": "新氣道裝置預印本",
+      "url": "https://example.com/preprint",
+      "source": "preprint",
+      "date": "2026-08-12",
+      "pillar": "裝備",
+      "why_label": "跟上認知",
+      "next_move": "先記錄，勿改配備。",
+      "summary": "早期訊號。",
+      "unverified": true,
+      "groundedness": 2
+    },
+    {
+      "id": "split-a",
+      "title": "兒科劑量爭議 A",
+      "url": "https://example.com/ped-a",
+      "source": "Journal",
+      "date": "2026-08-13",
+      "pillar": "臨床",
+      "clinical_subtopic": "特殊情境",
+      "why_label": "跟上認知",
+      "next_move": "與單位醫務討論。",
+      "summary": "立場 A。",
+      "relationship_note": "拆：與 ped-b 結論衝突",
+      "groundedness": 2
+    },
+    {
+      "id": "split-b",
+      "title": "兒科劑量爭議 A",
+      "url": "https://example.com/ped-b",
+      "source": "Journal",
+      "date": "2026-08-13",
+      "pillar": "臨床",
+      "clinical_subtopic": "特殊情境",
+      "why_label": "跟上認知",
+      "next_move": "對照衝突點再決定。",
+      "summary": "立場 B。",
+      "relationship_note": "拆：與 ped-a 結論衝突",
+      "groundedness": 2
+    },
+    {
+      "id": "sys1",
+      "title": "訓練認證公告",
+      "url": "https://example.com/train",
+      "source": "衛福部",
+      "date": "2026-08-14",
+      "pillar": "系統",
+      "why_label": "改做法",
+      "next_move": "更新再證時程。",
+      "summary": "認證。",
+      "groundedness": 8
+    }
+  ]
+}

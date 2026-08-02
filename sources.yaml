@@ -1,0 +1,83 @@
+# V1 seed sources — official / society / journal / guideline (8–12).
+# type: rss | html | fixture
+sources:
+  - id: mohw-news
+    name: 衛生福利部新聞
+    url: https://www.mohw.gov.tw/lp-16-1.html
+    type: html
+    region: tw
+    pillars: [系統, 臨床]
+    enabled: true
+
+  - id: nfa-news
+    name: 內政部消防署訊息
+    url: https://www.nfa.gov.tw/
+    type: html
+    region: tw
+    pillars: [系統, 裝備, 臨床]
+    enabled: true
+
+  - id: ems-tw-society
+    name: 台灣急診醫學會（示意入口）
+    url: https://www.sem.org.tw/
+    type: html
+    region: tw
+    pillars: [臨床, 系統]
+    enabled: true
+
+  - id: aha-cpr
+    name: AHA CPR & ECC
+    url: https://cpr.heart.org/
+    type: html
+    region: intl
+    pillars: [臨床]
+    enabled: true
+
+  - id: ilcor
+    name: ILCOR
+    url: https://ilcor.org/
+    type: html
+    region: intl
+    pillars: [臨床]
+    enabled: true
+
+  - id: erc
+    name: European Resuscitation Council
+    url: https://www.erc.edu/
+    type: html
+    region: intl
+    pillars: [臨床]
+    enabled: true
+
+  - id: resuscitation-journal
+    name: Resuscitation (journal home)
+    url: https://www.resuscitationjournal.com/
+    type: html
+    region: intl
+    pillars: [臨床]
+    enabled: true
+
+  - id: prehospital-emergency-care
+    name: Prehospital Emergency Care
+    url: https://www.tandfonline.com/journals/ipec20
+    type: html
+    region: intl
+    pillars: [臨床, 系統]
+    enabled: true
+
+  - id: fda-tw-safety
+    name: 台灣食藥署安全通報（示意）
+    url: https://www.fda.gov.tw/
+    type: html
+    region: tw
+    pillars: [裝備]
+    enabled: true
+
+  - id: offline-demo
+    name: Offline fixture source
+    url: fixture://offline-demo
+    type: fixture
+    region: tw
+    pillars: [臨床, 系統, 裝備]
+    enabled: true
+    fixture: tests/fixtures/layout_week.json
