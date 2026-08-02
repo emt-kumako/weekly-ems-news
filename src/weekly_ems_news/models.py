@@ -82,4 +82,5 @@ class WeekAssembly:
 
     week_id: str
     digest_markdown: str
+    digest_html: str
     item_ids: tuple[str, ...]

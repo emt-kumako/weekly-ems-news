@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
 
 from weekly_ems_news.codec import load_items
@@ -8,6 +9,7 @@ from weekly_ems_news.dedup import filter_duplicates, remember_items
 from weekly_ems_news.drafting import draft_items, llm_enabled
 from weekly_ems_news.fetch import fetch_from_sources
 from weekly_ems_news.models import WeekMeta
+from weekly_ems_news.reading_surface import build_reading_surface
 from weekly_ems_news.week import WeekWindow, ensure_week_dir
 from weekly_ems_news.week_package import (
     finalize as package_finalize,
@@ -117,8 +119,27 @@ def run_draft(
     )
 
 
+def run_rebuild_reading_surface(
+    project_root: Path,
+    *,
+    today: date | None = None,
+) -> StageResult:
+    """Rebuild reading/index.html from existing week digest.html files (no fetch)."""
+    surface = build_reading_surface(project_root, today=today, write=True)
+    return StageResult(
+        week_id=surface.selected_week_id or surface.today_week_id,
+        week_dir=surface.index_path.parent,
+        message=(
+            f"Wrote {surface.index_path} "
+            f"({len(surface.week_ids)} week(s); "
+            f"default {surface.selected_week_id or 'empty'})"
+        ),
+        ok=True,
+    )
+
+
 def run_finalize(project_root: Path, week_id: str) -> StageResult:
-    """Orchestrate week_package.finalize; refresh dedup for selected items."""
+    """Finalize week package, then refresh reading surface (week HTML first)."""
     week_dir = project_root / "weeks" / week_id
     if not (week_dir / "candidates.md").exists():
         return StageResult(
@@ -127,12 +148,31 @@ def run_finalize(project_root: Path, week_id: str) -> StageResult:
             message=f"Missing candidates.md in {week_dir}",
             ok=False,
         )
-    out = package_finalize(week_dir)
+    try:
+        out = package_finalize(week_dir)
+    except Exception as exc:  # noqa: BLE001 — surface failure without stale index
+        return StageResult(
+            week_id=week_id,
+            week_dir=week_dir,
+            message=f"Finalize failed (reading surface unchanged): {exc}",
+            ok=False,
+        )
+    if not (week_dir / "digest.html").is_file():
+        return StageResult(
+            week_id=week_id,
+            week_dir=week_dir,
+            message=(
+                f"Finalize did not produce digest.html; "
+                f"reading surface unchanged (digest.md at {out})"
+            ),
+            ok=False,
+        )
     meta, items = load_items(week_dir / "items.json")
     remember_items(items, project_root, week_id=meta.week_id)
+    surface = build_reading_surface(project_root, write=True)
     return StageResult(
         week_id=week_id,
         week_dir=week_dir,
-        message=f"Wrote {out}",
+        message=f"Wrote {out}; {surface.index_path}",
         ok=True,
     )

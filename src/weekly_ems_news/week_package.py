@@ -203,6 +203,8 @@ def finalize(week_dir: Path) -> Path:
     result = assemble_week_from_candidates(items, meta)
     out = week_dir / "digest.md"
     out.write_text(result.digest_markdown, encoding="utf-8")
+    html_out = week_dir / "digest.html"
+    html_out.write_text(result.digest_html, encoding="utf-8")
     write_items(week_dir, meta, items)
     return out
 

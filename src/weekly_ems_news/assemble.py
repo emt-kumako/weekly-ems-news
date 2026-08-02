@@ -3,6 +3,7 @@ from __future__ import annotations
 from weekly_ems_news.merge import merge_same_topic_clusters
 from weekly_ems_news.models import NewsItem, WeekAssembly, WeekMeta
 from weekly_ems_news.render import render_digest
+from weekly_ems_news.render_html import render_digest_html
 from weekly_ems_news.select import (
     PILLAR_ORDER,
     group_by_pillar,
@@ -35,9 +36,11 @@ def _assemble(
         flat.extend(by_pillar.get(pillar, []))
 
     markdown = render_digest(meta, flat, by_pillar)
+    html_doc = render_digest_html(meta, flat, by_pillar)
     return WeekAssembly(
         week_id=meta.week_id,
         digest_markdown=markdown,
+        digest_html=html_doc,
         item_ids=tuple(i.id for i in flat),
     )
 

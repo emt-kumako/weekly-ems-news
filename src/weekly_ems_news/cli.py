@@ -7,7 +7,12 @@ from pathlib import Path
 
 from weekly_ems_news.assemble import assemble_week_auto
 from weekly_ems_news.codec import load_items
-from weekly_ems_news.pipeline import run_draft, run_fetch, run_finalize
+from weekly_ems_news.pipeline import (
+    run_draft,
+    run_fetch,
+    run_finalize,
+    run_rebuild_reading_surface,
+)
 from weekly_ems_news.week import WeekWindow, iso_week_window, window_from_bounds
 
 
@@ -71,6 +76,12 @@ def build_parser() -> argparse.ArgumentParser:
     finalize_p.add_argument("--week", type=str, required=True)
     finalize_p.add_argument("--root", type=Path, default=None)
 
+    rebuild_p = sub.add_parser(
+        "rebuild-reading",
+        help="Rebuild reading/index.html from existing digests (no fetch)",
+    )
+    rebuild_p.add_argument("--root", type=Path, default=None)
+
     return parser
 
 
@@ -119,6 +130,11 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "finalize":
         result = run_finalize(root, str(args.week))
+        print(result.message, file=sys.stderr)
+        return 0 if result.ok else 1
+
+    if args.command == "rebuild-reading":
+        result = run_rebuild_reading_surface(root)
         print(result.message, file=sys.stderr)
         return 0 if result.ok else 1
 
