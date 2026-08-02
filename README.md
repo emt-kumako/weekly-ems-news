@@ -25,12 +25,24 @@ pytest
 
 `finalize` 會寫出該週 `digest.md`、`digest.html`，並更新專案閱讀入口的週次清單。
 
+### 本機網頁控制台（建議）
+
+在瀏覽器跑完整週流程（fetch → draft → 勾選 → finalize → 閱讀），無需記 CLI：
+
+```bash
+./weekly-ems serve
+# 瀏覽器打開 http://127.0.0.1:8787/
+```
+
+僅綁定本機（`127.0.0.1`）。預設勾選「離線 fetch」走 fixture；要抓線上來源時取消勾選。控制台內也可打開閱讀面。
+
 ### 閱讀 HTML
 
 定稿後用瀏覽器打開：
 
 ```bash
 open reading/index.html
+# 或在控制台點「打開閱讀面」（serve 執行中時為 http://127.0.0.1:8787/reading/）
 ```
 
 路徑：`reading/index.html`（專案根目錄下）。左側為已定稿週次（新→舊），預設選取今天所屬 ISO 週；若當週尚未 finalize，會顯示空狀態，仍可改選其他週。單週檔也可直接開 `weeks/<週次>/digest.md` 或 `digest.html`。
@@ -47,6 +59,6 @@ open reading/index.html
 
 若線上 `fetch` 出現 SSL 憑證錯誤（常見於 python.org 安裝的 macOS Python），請先為此 Python 安裝憑證，或暫時用 `--offline` 驗證流程（會走 `sources.yaml` 裡的 fixture 來源）。
 
-規格與票據見 `.scratch/weekly-ems-news/`、`.scratch/digest-reading-surface/`、`.scratch/responsive-reading-layout/`。領域詞彙見 `CONTEXT.md`；架構決策見 `docs/adr/`。
+規格與票據見 `.scratch/weekly-ems-news/`、`.scratch/digest-reading-surface/`、`.scratch/responsive-reading-layout/`、`.scratch/local-web-console/`。領域詞彙見 `CONTEXT.md`；架構決策見 `docs/adr/`。
 
-核心 module：`pipeline`（`run_fetch` / `run_draft` / `run_finalize` / `run_rebuild_reading_surface`）、`week_package`、`reading_surface`、`assemble_week_auto` / `assemble_week_from_candidates`；CLI 只做 adapter。
+核心 module：`pipeline`、`week_package`、`reading_surface`、`console`（本機網頁 adapter）、`assemble_week_auto` / `assemble_week_from_candidates`；CLI 只做 adapter。

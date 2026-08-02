@@ -18,6 +18,8 @@ from weekly_ems_news.week import WeekWindow
 
 __all__ = [
     "load_items",
+    "load_candidates",
+    "save_candidates",
     "write_candidates",
     "finalize",
     "write_items",
@@ -186,9 +188,13 @@ def _parse_candidates_markdown(
     return parsed
 
 
-def finalize(week_dir: Path) -> Path:
+def load_candidates(week_dir: Path) -> tuple[WeekMeta, list[NewsItem]]:
+    """Load items.json + candidates.md selection/order/tagline."""
     meta, stored = load_items(week_dir / "items.json")
-    candidates_text = (week_dir / "candidates.md").read_text(encoding="utf-8")
+    candidates_path = week_dir / "candidates.md"
+    if not candidates_path.is_file():
+        return meta, stored
+    candidates_text = candidates_path.read_text(encoding="utf-8")
     tagline_match = re.search(r"^> (.+)$", candidates_text, re.MULTILINE)
     if tagline_match:
         meta = WeekMeta(
@@ -200,6 +206,49 @@ def finalize(week_dir: Path) -> Path:
             source_count=meta.source_count,
         )
     items = _parse_candidates_markdown(candidates_text, stored)
+    return meta, items
+
+
+def save_candidates(
+    week_dir: Path,
+    *,
+    selected_ids: list[str] | set[str],
+    tagline: str | None = None,
+    ordered_ids: list[str] | None = None,
+) -> Path:
+    """Update checkbox selection (and optional order/tagline), rewrite candidates.md."""
+    meta, items = load_candidates(week_dir)
+    selected = set(selected_ids)
+    by_id = {i.id: i for i in items}
+    if ordered_ids is not None:
+        ordered: list[NewsItem] = []
+        seen: set[str] = set()
+        for item_id in ordered_ids:
+            item = by_id.get(item_id)
+            if item is None or item_id in seen:
+                continue
+            ordered.append(item)
+            seen.add(item_id)
+        for item in items:
+            if item.id not in seen:
+                ordered.append(item)
+        items = ordered
+    for item in items:
+        item.selected = item.id in selected
+    if tagline is not None:
+        meta = WeekMeta(
+            week_id=meta.week_id,
+            date_start=meta.date_start,
+            date_end=meta.date_end,
+            tagline=tagline,
+            header_rel_path=meta.header_rel_path,
+            source_count=meta.source_count,
+        )
+    return write_candidates(week_dir, meta, items)
+
+
+def finalize(week_dir: Path) -> Path:
+    meta, items = load_candidates(week_dir)
     result = assemble_week_from_candidates(items, meta)
     out = week_dir / "digest.md"
     out.write_text(result.digest_markdown, encoding="utf-8")

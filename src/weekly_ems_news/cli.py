@@ -7,6 +7,7 @@ from pathlib import Path
 
 from weekly_ems_news.assemble import assemble_week_auto
 from weekly_ems_news.codec import load_items
+from weekly_ems_news.console import DEFAULT_HOST, DEFAULT_PORT, serve_console
 from weekly_ems_news.pipeline import (
     run_draft,
     run_fetch,
@@ -82,6 +83,14 @@ def build_parser() -> argparse.ArgumentParser:
     )
     rebuild_p.add_argument("--root", type=Path, default=None)
 
+    serve_p = sub.add_parser(
+        "serve",
+        help="Local web console (fetch → draft → select → finalize)",
+    )
+    serve_p.add_argument("--root", type=Path, default=None)
+    serve_p.add_argument("--host", type=str, default=DEFAULT_HOST)
+    serve_p.add_argument("--port", type=int, default=DEFAULT_PORT)
+
     return parser
 
 
@@ -137,6 +146,10 @@ def main(argv: list[str] | None = None) -> int:
         result = run_rebuild_reading_surface(root)
         print(result.message, file=sys.stderr)
         return 0 if result.ok else 1
+
+    if args.command == "serve":
+        serve_console(root, host=str(args.host), port=int(args.port))
+        return 0
 
     raise AssertionError(f"Unhandled command: {args.command}")
 
