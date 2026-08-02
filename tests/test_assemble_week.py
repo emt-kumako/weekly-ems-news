@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from weekly_ems_news.assemble import assemble_week
-from weekly_ems_news.fixtures import load_week_fixture
+from weekly_ems_news.assemble import assemble_week, assemble_week_auto
+from weekly_ems_news.codec import load_items
 from weekly_ems_news.models import ClinicalSubtopic, Pillar
 from weekly_ems_news.select import MAX_DIGEST_ITEMS
 
@@ -11,8 +11,8 @@ FIXTURES = Path(__file__).parent / "fixtures"
 
 
 def test_minimal_digest_has_brand_week_tagline_and_card():
-    meta, items = load_week_fixture(FIXTURES / "minimal_week.json")
-    result = assemble_week(items, meta)
+    meta, items = load_items(FIXTURES / "minimal_week.json")
+    result = assemble_week_auto(items, meta)
 
     md = result.digest_markdown
     assert "weekly-ems-news-header.png" in md
@@ -25,7 +25,7 @@ def test_minimal_digest_has_brand_week_tagline_and_card():
 
 
 def test_layout_hides_empty_pillars_and_matches_overview():
-    meta, items = load_week_fixture(FIXTURES / "layout_week.json")
+    meta, items = load_items(FIXTURES / "layout_week.json")
     # Drop equipment to ensure empty pillar omission.
     items = [i for i in items if i.pillar != Pillar.EQUIPMENT]
     result = assemble_week(items, meta)
@@ -43,7 +43,7 @@ def test_layout_hides_empty_pillars_and_matches_overview():
 
 
 def test_change_practice_sorts_before_knowledge_within_pillar():
-    meta, items = load_week_fixture(FIXTURES / "selection_week.json")
+    meta, items = load_items(FIXTURES / "selection_week.json")
     result = assemble_week(items, meta)
     clinical_ids = [
         i
@@ -58,7 +58,7 @@ def test_change_practice_sorts_before_knowledge_within_pillar():
 
 
 def test_max_ten_and_pillar_balance():
-    meta, items = load_week_fixture(FIXTURES / "selection_week.json")
+    meta, items = load_items(FIXTURES / "selection_week.json")
     result = assemble_week(items, meta)
     assert len(result.item_ids) <= MAX_DIGEST_ITEMS
 
@@ -70,7 +70,7 @@ def test_max_ten_and_pillar_balance():
 
 
 def test_clinical_subtopic_half_cap():
-    meta, items = load_week_fixture(FIXTURES / "selection_week.json")
+    meta, items = load_items(FIXTURES / "selection_week.json")
     result = assemble_week(items, meta)
     by_id = {i.id: i for i in items}
     clinical = [
@@ -92,7 +92,7 @@ def test_clinical_subtopic_half_cap():
 
 
 def test_merge_same_title_and_keep_splits_and_unverified_appendix():
-    meta, items = load_week_fixture(FIXTURES / "merge_week.json")
+    meta, items = load_items(FIXTURES / "merge_week.json")
     result = assemble_week(items, meta)
     md = result.digest_markdown
 
@@ -110,13 +110,13 @@ def test_merge_same_title_and_keep_splits_and_unverified_appendix():
 
 
 def test_thin_week_does_not_pad_to_ten():
-    meta, items = load_week_fixture(FIXTURES / "minimal_week.json")
+    meta, items = load_items(FIXTURES / "minimal_week.json")
     result = assemble_week(items, meta)
     assert len(result.item_ids) == 1
 
 
 def test_preserve_order_still_enforces_max_ten_and_balance():
-    meta, items = load_week_fixture(FIXTURES / "selection_week.json")
+    meta, items = load_items(FIXTURES / "selection_week.json")
     # All selected; candidate order is fixture order.
     result = assemble_week(items, meta, preserve_order=True, apply_selection=True)
     assert len(result.item_ids) <= MAX_DIGEST_ITEMS

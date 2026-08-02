@@ -2,11 +2,10 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from weekly_ems_news.candidates import read_items_json
+from weekly_ems_news.codec import load_items
 from weekly_ems_news.dedup import filter_duplicates, remember_items
 from weekly_ems_news.drafting import draft_items
 from weekly_ems_news.fetch import fetch_from_sources
-from weekly_ems_news.fixtures import load_week_fixture
 from weekly_ems_news.models import NewsItem, Pillar, WhyLabel
 from weekly_ems_news.week import iso_week_window
 
@@ -66,7 +65,7 @@ def test_dedup_skips_seen_unless_reentry(tmp_path: Path):
 
 
 def test_fallback_draft_marks_human_fields():
-    meta, items = load_week_fixture(FIXTURES / "minimal_week.json")
+    meta, items = load_items(FIXTURES / "minimal_week.json")
     items[0].next_move = ""
     drafted, new_meta = draft_items(items, meta, force_fallback=True)
     assert "待補" in drafted[0].next_move

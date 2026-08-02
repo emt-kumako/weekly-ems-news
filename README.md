@@ -27,4 +27,6 @@ pytest
 
 若線上 `fetch` 出現 SSL 憑證錯誤（常見於 python.org 安裝的 macOS Python），請先為此 Python 安裝憑證，或暫時用 `--offline` 驗證流程（會走 `sources.yaml` 裡的 fixture 來源）。
 
-規格與票據見 `.scratch/weekly-ems-news/`。
+規格與票據見 `.scratch/weekly-ems-news/`。領域詞彙見 `CONTEXT.md`；架構決策見 `docs/adr/`。
+
+核心 module：`pipeline`（`run_fetch` / `run_draft` / `run_finalize`）、`week_package`、`assemble_week_auto` / `assemble_week_from_candidates`；CLI 只做 adapter。

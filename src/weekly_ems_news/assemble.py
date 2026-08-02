@@ -12,36 +12,22 @@ from weekly_ems_news.select import (
 )
 
 
-def assemble_week(
+def _assemble(
     items: list[NewsItem],
     meta: WeekMeta,
     *,
-    apply_merge: bool = True,
-    apply_selection: bool = True,
-    preserve_order: bool = False,
+    apply_merge: bool,
+    preserve_order: bool,
 ) -> WeekAssembly:
-    """
-    Primary seam: normalized items + week meta -> digest markdown.
-
-    When preserve_order is True (finalize from manually ordered candidates),
-    selection rules still apply; survivor order follows the candidate order.
-    """
     working = list(items)
     if apply_merge:
         working = merge_same_topic_clusters(working)
 
     if preserve_order:
-        selected = (
-            select_preserving_order(working)
-            if apply_selection
-            else [i for i in working if i.selected]
-        )
+        selected = select_preserving_order(working)
         by_pillar = group_by_pillar_preserving_order(selected)
-    elif apply_selection:
-        selected = select_for_digest(working)
-        by_pillar = group_by_pillar(selected)
     else:
-        selected = [i for i in working if i.selected]
+        selected = select_for_digest(working)
         by_pillar = group_by_pillar(selected)
 
     flat: list[NewsItem] = []
@@ -53,4 +39,37 @@ def assemble_week(
         week_id=meta.week_id,
         digest_markdown=markdown,
         item_ids=tuple(i.id for i in flat),
+    )
+
+
+def assemble_week_auto(items: list[NewsItem], meta: WeekMeta) -> WeekAssembly:
+    """Fixture / ranked assembly: merge, select, sort within pillars."""
+    return _assemble(items, meta, apply_merge=True, preserve_order=False)
+
+
+def assemble_week_from_candidates(
+    items: list[NewsItem], meta: WeekMeta
+) -> WeekAssembly:
+    """Candidates finalize path: no re-merge; selection rules; preserve order."""
+    return _assemble(items, meta, apply_merge=False, preserve_order=True)
+
+
+def assemble_week(
+    items: list[NewsItem],
+    meta: WeekMeta,
+    *,
+    apply_merge: bool = True,
+    apply_selection: bool = True,
+    preserve_order: bool = False,
+) -> WeekAssembly:
+    """Compatibility wrapper — prefer the named entry points."""
+    if preserve_order:
+        return assemble_week_from_candidates(items, meta)
+    if apply_merge and apply_selection:
+        return assemble_week_auto(items, meta)
+    return _assemble(
+        items,
+        meta,
+        apply_merge=apply_merge,
+        preserve_order=False,
     )

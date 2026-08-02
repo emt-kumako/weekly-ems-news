@@ -2,9 +2,13 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from weekly_ems_news.candidates import finalize_week, write_candidates
-from weekly_ems_news.fixtures import load_week_fixture
+from weekly_ems_news.codec import load_items
 from weekly_ems_news.week import iso_week_window
+from weekly_ems_news.week_package import (
+    finalize,
+    render_candidates_markdown,
+    write_candidates,
+)
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -12,7 +16,7 @@ FIXTURES = Path(__file__).parent / "fixtures"
 def test_draft_and_finalize_preserves_candidates_and_respects_checkbox(
     tmp_path: Path,
 ):
-    meta, items = load_week_fixture(FIXTURES / "layout_week.json")
+    meta, items = load_items(FIXTURES / "layout_week.json")
     week_dir = tmp_path / "weeks" / meta.week_id
     write_candidates(week_dir, meta, items)
 
@@ -26,7 +30,7 @@ def test_draft_and_finalize_preserves_candidates_and_respects_checkbox(
     )
     (week_dir / "candidates.md").write_text(updated, encoding="utf-8")
 
-    out = finalize_week(week_dir)
+    out = finalize(week_dir)
     assert out.exists()
     digest = out.read_text(encoding="utf-8")
     assert "創傷止血訓練更新" in digest
@@ -40,7 +44,7 @@ def test_draft_and_finalize_preserves_candidates_and_respects_checkbox(
 
 
 def test_finalize_respects_manual_order_within_pillar(tmp_path: Path):
-    meta, items = load_week_fixture(FIXTURES / "selection_week.json")
+    meta, items = load_items(FIXTURES / "selection_week.json")
     by_id = {i.id: i for i in items}
     # Distinct clinical subtopics so half-cap does not drop the pair.
     clinical = [by_id["c-t1"], by_id["c-m1"]]
@@ -49,14 +53,12 @@ def test_finalize_respects_manual_order_within_pillar(tmp_path: Path):
     week_dir = tmp_path / "weeks" / meta.week_id
     write_candidates(week_dir, meta, pack)
 
-    from weekly_ems_news.candidates import render_candidates_markdown
-
     # Reverse clinical order in candidates; pillar sections stay 臨床→系統→裝備.
     reordered = list(reversed(clinical)) + others
     (week_dir / "candidates.md").write_text(
         render_candidates_markdown(meta, reordered), encoding="utf-8"
     )
-    finalize_week(week_dir)
+    finalize(week_dir)
     digest = (week_dir / "digest.md").read_text(encoding="utf-8")
     first = reordered[0].title
     second = reordered[1].title
